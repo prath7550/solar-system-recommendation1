@@ -109,15 +109,17 @@
             var co2Reduction = localStorage.getItem('co2Reduction');
             var unitsGeneratedPerYear = localStorage.getItem('unitsGeneratedPerYear');
             var yearlySavings = localStorage.getItem('yearlySavings');
+            var subsidyAmount = localStorage.getItem('subsidyAmount');
+            var investmentRequired = localStorage.getItem('investmentRequired');
+            var investmentAfterSubsidy = localStorage.getItem('investmentAfterSubsidy');
 
             // Update the elements with the data
             document.getElementById('solarSize').textContent = solarSize + ' kW';
             document.getElementById('areaRequired').textContent = areaRequired + ' sqft';
             document.getElementById('currentBill').textContent = '₹' + bill;
             document.getElementById('solarBill').textContent = '₹' + (bill - savingsPerMonth);
-
-            // Calculate yearly savings (savings per month * 12)
-            var yearlySavings = savingsPerMonth * 12;
-
-            // Calculate the total investment required (solar system size * cost per kW)
-            var investmentRequired = solarSize
+            document.getElementById('treesPlanted').textContent = treesPlanted + ' trees';
+            document.getElementById('co2Reduction').textContent = co2Reduction + ' tons';
+            document.getElementById('unitsGenerated').textContent = unitsGeneratedPerYear + ' units';
+            document.getElementById('billSavings').textContent = '₹' + yearlySavings;
+            document.getElementById('subsidyAmount').textContent = '₹' + subsidyAmount;

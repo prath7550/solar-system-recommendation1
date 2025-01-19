@@ -100,7 +100,7 @@
             var costPerKw = document.getElementById('costPerKw').value;
             var unitRate = document.getElementById('unitRate').value;
 
-            // Simple logic to calculate solar system size
+            // Simple logic to calculate solar system size (assuming 1 kW for every ₹1000 of bill)
             var solarSystemSize = (bill / 1000) * 1.5; // Example calculation based on bill
             var areaRequired = solarSystemSize * 100;
             var savings = bill - (solarSystemSize * 0.8); // Example savings calculation
@@ -115,6 +115,13 @@
 
             // Calculate yearly savings based on unit tariff rate
             var yearlySavings = unitsGeneratedPerYear * unitRate;
+
+            // Calculate the total investment required (solar system size * cost per kW)
+            var investmentRequired = solarSystemSize * costPerKw;
+
+            // Subsidy and adjusted investment after subsidy
+            var subsidyAmount = 78000; // Fixed subsidy
+            var investmentAfterSubsidy = investmentRequired - subsidyAmount;
 
             // Store the results in localStorage
             localStorage.setItem('city', city);
@@ -132,6 +139,9 @@
             localStorage.setItem('co2Reduction', co2Reduction);
             localStorage.setItem('unitsGeneratedPerYear', unitsGeneratedPerYear);
             localStorage.setItem('yearlySavings', yearlySavings);
+            localStorage.setItem('investmentRequired', investmentRequired);
+            localStorage.setItem('subsidyAmount', subsidyAmount);
+            localStorage.setItem('investmentAfterSubsidy', investmentAfterSubsidy);
 
             // Redirect to the report page
             window.location.href = "report.html";
