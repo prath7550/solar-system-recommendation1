@@ -79,9 +79,9 @@
                     <option value="industrial">Industrial</option>
                 </select>
 
-                <label for="costPerKw">System Cost per kW (₹):</label>
+                <label for="costPerKw">Cost Per kW (₹):</label>
                 <input type="number" id="costPerKw" name="costPerKw" required>
-                
+
                 <button type="button" onclick="generateReport()">Get Solar Recommendation</button>
             </form>
         </div>
@@ -100,7 +100,9 @@
             var solarSystemSize = (bill / 1000) * 1.5; // Example calculation based on bill
             var areaRequired = solarSystemSize * 100;
             var savings = bill - (solarSystemSize * 0.8); // Example savings calculation
-            var totalSystemCost = solarSystemSize * costPerKw; // Calculate total cost based on user input
+
+            // Calculate system cost
+            var systemCost = solarSystemSize * costPerKw;
 
             // Store the results in localStorage
             localStorage.setItem('city', city);
@@ -110,7 +112,7 @@
             localStorage.setItem('solarSystemSize', solarSystemSize);
             localStorage.setItem('areaRequired', areaRequired);
             localStorage.setItem('savings', savings);
-            localStorage.setItem('totalSystemCost', totalSystemCost); // Store total system cost
+            localStorage.setItem('systemCost', systemCost);
 
             // Redirect to the report page
             window.location.href = "report.html";

@@ -21,13 +21,11 @@
             text-align: center;
             font-size: 36px;
             color: #e67e22;
-            animation: fadeIn 1s ease-out;
         }
         .grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 20px;
-            animation: slideIn 1s ease-out;
         }
         .card {
             background: #fff;
@@ -35,9 +33,6 @@
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             padding: 20px;
             text-align: center;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeUp 1s forwards;
         }
         .card img {
             max-width: 100px;
@@ -46,34 +41,6 @@
         .highlight {
             color: #e67e22;
             font-weight: bold;
-        }
-
-        /* Animations */
-        @keyframes fadeIn {
-            0% { opacity: 0; }
-            100% { opacity: 1; }
-        }
-        @keyframes slideIn {
-            0% { opacity: 0; transform: translateX(-100%); }
-            100% { opacity: 1; transform: translateX(0); }
-        }
-        @keyframes fadeUp {
-            0% { opacity: 0; transform: translateY(20px); }
-            100% { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Animation Delays for Staggering Effect */
-        .card:nth-child(1) {
-            animation-delay: 0.2s;
-        }
-        .card:nth-child(2) {
-            animation-delay: 0.4s;
-        }
-        .card:nth-child(3) {
-            animation-delay: 0.6s;
-        }
-        .card:nth-child(4) {
-            animation-delay: 0.8s;
         }
     </style>
 </head>
@@ -103,8 +70,8 @@
 
             <div class="card">
                 <h2>Financial Benefits</h2>
-                <p>System Cost: <span class="highlight">₹1.4 Lacs</span></p>
-                <p>Lifetime Savings: <span class="highlight" id="lifetimeSavings">₹4.4 Lacs</span></p>
+                <p>System Cost: <span class="highlight" id="systemCost">₹1.4 Lacs</span></p>
+                <p>Savings per Year: <span class="highlight" id="yearlySavings">₹52,800</span></p>
                 <p>Return on Investment: <span class="highlight">13.0% p.a.</span></p>
             </div>
         </div>
@@ -115,15 +82,22 @@
             // Get the data from localStorage
             var solarSize = localStorage.getItem('solarSystemSize');
             var areaRequired = localStorage.getItem('areaRequired');
-            var savings = localStorage.getItem('savings');
+            var savingsPerMonth = localStorage.getItem('savings');
             var bill = localStorage.getItem('bill');
+            var systemCost = localStorage.getItem('systemCost');
 
             // Update the elements with the data
             document.getElementById('solarSize').textContent = solarSize + ' kW';
             document.getElementById('areaRequired').textContent = areaRequired + ' sqft';
             document.getElementById('currentBill').textContent = '₹' + bill;
-            document.getElementById('solarBill').textContent = '₹' + (bill - savings);
-            document.getElementById('lifetimeSavings').textContent = '₹' + savings * 12; // Assuming lifetime savings are yearly
+            document.getElementById('solarBill').textContent = '₹' + (bill - savingsPerMonth);
+
+            // Calculate yearly savings (savings per month * 12)
+            var yearlySavings = savingsPerMonth * 12;
+
+            // Update yearly savings and system cost
+            document.getElementById('systemCost').textContent = '₹' + systemCost;
+            document.getElementById('yearlySavings').textContent = '₹' + yearlySavings;
         }
     </script>
 </body>
