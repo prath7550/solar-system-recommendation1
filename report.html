@@ -71,8 +71,8 @@
 
             <div class="card">
                 <h2>Your Contribution to the Environment</h2>
-                <p>117 trees added</p>
-                <p>3 cars off the road</p>
+                <p>Trees Planted: <span class="highlight" id="treesPlanted">104 trees</span></p>
+                <p>CO2 Emission Reduced: <span class="highlight" id="co2Reduction">3.64 tons</span></p>
             </div>
 
             <div class="card">
@@ -81,6 +81,12 @@
                 <p>Investment Required: <span class="highlight" id="investmentRequired">₹1.4 Lacs</span></p>
                 <p>Yearly Savings on Bill: <span class="highlight" id="yearlySavings">₹44,000</span></p>
                 <p>Return on Investment: <span class="highlight" id="roi">31.42% p.a.</span></p>
+            </div>
+
+            <div class="card">
+                <h2>Subsidy Information</h2>
+                <p>Subsidy Applicable: <span class="highlight" id="subsidyAmount">₹78,000</span></p>
+                <p>Investment After Subsidy: <span class="highlight" id="investmentAfterSubsidy">₹1,22,000</span></p>
             </div>
         </div>
     </div>
@@ -93,6 +99,8 @@
             var savingsPerMonth = localStorage.getItem('savings');
             var bill = localStorage.getItem('bill');
             var systemCostPerKw = localStorage.getItem('systemCostPerKw'); // Get cost per kW from localStorage
+            var treesPlanted = localStorage.getItem('treesPlanted');
+            var co2Reduction = localStorage.getItem('co2Reduction');
 
             // Check if the systemCostPerKw is available and valid
             if(systemCostPerKw && systemCostPerKw > 0) {
@@ -111,11 +119,23 @@
                 // Calculate Return on Investment (ROI)
                 var roi = (yearlySavings / investmentRequired) * 100;
 
+                // Calculate subsidy and investment after subsidy
+                var subsidyAmount = 78000; // Set fixed subsidy
+                var investmentAfterSubsidy = investmentRequired - subsidyAmount;
+
                 // Update the elements with the calculated values
                 document.getElementById('systemCost').textContent = '₹' + (solarSize * systemCostPerKw).toFixed(2);
                 document.getElementById('investmentRequired').textContent = '₹' + investmentRequired.toFixed(2);
                 document.getElementById('yearlySavings').textContent = '₹' + yearlySavings.toFixed(2);
                 document.getElementById('roi').textContent = roi.toFixed(2) + '% p.a.';
+
+                // Update the environmental impact values
+                document.getElementById('treesPlanted').textContent = treesPlanted + ' trees';
+                document.getElementById('co2Reduction').textContent = co2Reduction + ' tons';
+
+                // Update the subsidy information
+                document.getElementById('subsidyAmount').textContent = '₹' + subsidyAmount;
+                document.getElementById('investmentAfterSubsidy').textContent = '₹' + investmentAfterSubsidy.toFixed(2);
             } else {
                 alert("Invalid or missing cost per kW value!");
             }
