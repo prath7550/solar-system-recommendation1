@@ -71,8 +71,9 @@
             <div class="card">
                 <h2>Financial Benefits</h2>
                 <p>System Cost: <span class="highlight" id="systemCost">₹1.4 Lacs</span></p>
-                <p>Savings per Year: <span class="highlight" id="yearlySavings">₹52,800</span></p>
-                <p>Return on Investment: <span class="highlight">13.0% p.a.</span></p>
+                <p>Investment Required: <span class="highlight" id="investmentRequired">₹1.4 Lacs</span></p>
+                <p>Yearly Savings on Electricity Bills: <span class="highlight" id="yearlySavings">₹52,800</span></p>
+                <p>Return on Investment (ROI): <span class="highlight" id="roi">13.0% p.a.</span></p>
             </div>
         </div>
     </div>
@@ -84,7 +85,7 @@
             var areaRequired = localStorage.getItem('areaRequired');
             var savingsPerMonth = localStorage.getItem('savings');
             var bill = localStorage.getItem('bill');
-            var systemCost = localStorage.getItem('systemCost');
+            var systemCostPerKw = localStorage.getItem('systemCostPerKw'); // New input for cost per kW
 
             // Update the elements with the data
             document.getElementById('solarSize').textContent = solarSize + ' kW';
@@ -95,9 +96,17 @@
             // Calculate yearly savings (savings per month * 12)
             var yearlySavings = savingsPerMonth * 12;
 
-            // Update yearly savings and system cost
-            document.getElementById('systemCost').textContent = '₹' + systemCost;
+            // Calculate the total investment required (solar system size * cost per kW)
+            var investmentRequired = solarSize * systemCostPerKw;
+
+            // Calculate Return on Investment (ROI)
+            var roi = (yearlySavings / investmentRequired) * 100;
+
+            // Update the elements with the calculated values
+            document.getElementById('systemCost').textContent = '₹' + (solarSize * systemCostPerKw);
+            document.getElementById('investmentRequired').textContent = '₹' + investmentRequired;
             document.getElementById('yearlySavings').textContent = '₹' + yearlySavings;
+            document.getElementById('roi').textContent = roi.toFixed(2) + '% p.a.';
         }
     </script>
 </body>
