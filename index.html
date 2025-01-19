@@ -3,148 +3,125 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Solar System Recommendation - Shri Datta Traders & Electricals</title>
+    <title>Solar Calculator - Input</title>
     <style>
         body {
             font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
-            color: #333;
         }
         .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 40px;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
         h1 {
             text-align: center;
-            font-size: 36px;
-            color: #e67e22;
-        }
-        .form-container {
-            background-color: white;
-            border-radius: 10px;
-            padding: 30px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        .form-container label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 10px;
             color: #333;
         }
-        .form-container input, .form-container select {
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+        input, select {
             width: 100%;
             padding: 10px;
-            margin-bottom: 20px;
+            margin-top: 5px;
             border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 16px;
+            border-radius: 4px;
         }
-        .form-container button {
-            background-color: #e67e22;
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 20px;
+            background-color: #28a745;
             color: white;
             border: none;
-            padding: 12px 20px;
-            border-radius: 5px;
+            border-radius: 4px;
+            font-size: 16px;
             cursor: pointer;
-            font-size: 18px;
-            width: 100%;
         }
-        .form-container button:hover {
-            background-color: #d35400;
+        button:hover {
+            background-color: #218838;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Shri Datta Traders & Electricals</h1>
-        <div class="form-container">
-            <h2>Enter Your Details</h2>
-            <form id="solarForm">
-                <label for="city">City:</label>
-                <input type="text" id="city" name="city" required>
-                
-                <label for="state">State:</label>
-                <input type="text" id="state" name="state" required>
-                
-                <label for="bill">Monthly Electricity Bill (₹):</label>
-                <input type="number" id="bill" name="bill" required>
-                
-                <label for="type">Select Type:</label>
-                <select id="type" name="type" required>
-                    <option value="residential">Residential</option>
-                    <option value="commercial">Commercial</option>
-                    <option value="industrial">Industrial</option>
-                </select>
-
-                <label for="costPerKw">Cost per kW (₹):</label>
-                <input type="number" id="costPerKw" name="costPerKw" required>
-
-                <label for="unitRate">Unit Tariff Rate (₹/unit):</label>
-                <input type="number" id="unitRate" name="unitRate" required>
-
-                <button type="button" onclick="generateReport()">Get Solar Recommendation</button>
-            </form>
-        </div>
+        <h1>Solar Calculator</h1>
+        <form id="solarForm">
+            <label for="city">City:</label>
+            <input type="text" id="city" required>
+            
+            <label for="state">State:</label>
+            <input type="text" id="state" required>
+            
+            <label for="bill">Monthly Electricity Bill (₹):</label>
+            <input type="number" id="bill" required>
+            
+            <label for="type">System Type:</label>
+            <select id="type" required>
+                <option value="residential">Residential</option>
+                <option value="commercial">Commercial</option>
+                <option value="industrial">Industrial</option>
+            </select>
+            
+            <label for="costPerKw">Cost per kW (₹):</label>
+            <input type="number" id="costPerKw" required>
+            
+            <label for="unitRate">Unit Tariff Rate (₹):</label>
+            <input type="number" id="unitRate" required>
+            
+            <button type="button" onclick="calculateAndProceed()">Calculate</button>
+        </form>
     </div>
-
     <script>
-        function generateReport() {
-            // Get the input values
-            var city = document.getElementById('city').value;
-            var state = document.getElementById('state').value;
-            var bill = document.getElementById('bill').value;
-            var type = document.getElementById('type').value;
-            var costPerKw = document.getElementById('costPerKw').value;
-            var unitRate = document.getElementById('unitRate').value;
+        function calculateAndProceed() {
+            const city = document.getElementById('city').value;
+            const state = document.getElementById('state').value;
+            const bill = parseFloat(document.getElementById('bill').value);
+            const type = document.getElementById('type').value;
+            const costPerKw = parseFloat(document.getElementById('costPerKw').value);
+            const unitRate = parseFloat(document.getElementById('unitRate').value);
 
-            // Simple logic to calculate solar system size (assuming 1 kW for every ₹1000 of bill)
-            var solarSystemSize = (bill / 1000) * 1.5; // Example calculation based on bill
-            var areaRequired = solarSystemSize * 100;
-            var savings = bill - (solarSystemSize * 0.8); // Example savings calculation
+            // Solar system size calculation
+            const solarSystemSize = (bill / 1000) * 1.5;
+            const areaRequired = solarSystemSize * 100;
+            const unitsGeneratedPerDay = solarSystemSize * 4;
+            const unitsGeneratedPerYear = unitsGeneratedPerDay * 365;
+            const yearlySavings = unitsGeneratedPerYear * unitRate;
 
-            // Calculate trees planted and CO2 reduction based on system size
-            var treesPlanted = solarSystemSize * 41; // 1 kW offsets approximately 41 trees
-            var co2Reduction = solarSystemSize * 1.4; // 1 kW offsets approximately 1.4 tons of CO2 per year
+            // Financial details
+            const investmentRequired = solarSystemSize * costPerKw;
+            const subsidyAmount = 78000; // Fixed subsidy for example
+            const investmentAfterSubsidy = investmentRequired - subsidyAmount;
 
-            // Calculate units generated per year
-            var unitsGeneratedPerDay = solarSystemSize * 4; // 4 units per kW per day
-            var unitsGeneratedPerYear = unitsGeneratedPerDay * 365; // Total units in a year
+            // Environmental benefits
+            const treesPlanted = solarSystemSize * 41;
+            const co2Reduction = solarSystemSize * 1.4;
 
-            // Calculate yearly savings based on unit tariff rate
-            var yearlySavings = unitsGeneratedPerYear * unitRate;
-
-            // Calculate the total investment required (solar system size * cost per kW)
-            var investmentRequired = solarSystemSize * costPerKw;
-
-            // Subsidy and adjusted investment after subsidy
-            var subsidyAmount = 78000; // Fixed subsidy
-            var investmentAfterSubsidy = investmentRequired - subsidyAmount;
-
-            // Store the results in localStorage
+            // Save data to localStorage
             localStorage.setItem('city', city);
             localStorage.setItem('state', state);
             localStorage.setItem('bill', bill);
             localStorage.setItem('type', type);
-            localStorage.setItem('solarSystemSize', solarSystemSize);
-            localStorage.setItem('areaRequired', areaRequired);
-            localStorage.setItem('savings', savings);
-            localStorage.setItem('systemCostPerKw', costPerKw); // Save cost per kW to localStorage
-            localStorage.setItem('unitRate', unitRate); // Save unit rate to localStorage
-
-            // Save the calculated trees and CO2 data
-            localStorage.setItem('treesPlanted', treesPlanted);
-            localStorage.setItem('co2Reduction', co2Reduction);
-            localStorage.setItem('unitsGeneratedPerYear', unitsGeneratedPerYear);
-            localStorage.setItem('yearlySavings', yearlySavings);
-            localStorage.setItem('investmentRequired', investmentRequired);
+            localStorage.setItem('solarSystemSize', solarSystemSize.toFixed(2));
+            localStorage.setItem('areaRequired', areaRequired.toFixed(2));
+            localStorage.setItem('unitsGeneratedPerYear', unitsGeneratedPerYear.toFixed(2));
+            localStorage.setItem('yearlySavings', yearlySavings.toFixed(2));
+            localStorage.setItem('investmentRequired', investmentRequired.toFixed(2));
             localStorage.setItem('subsidyAmount', subsidyAmount);
-            localStorage.setItem('investmentAfterSubsidy', investmentAfterSubsidy);
+            localStorage.setItem('investmentAfterSubsidy', investmentAfterSubsidy.toFixed(2));
+            localStorage.setItem('treesPlanted', Math.round(treesPlanted));
+            localStorage.setItem('co2Reduction', co2Reduction.toFixed(2));
 
-            // Redirect to the report page
-            window.location.href = "report.html";
+            // Redirect to report page
+            window.location.href = 'report.html';
         }
     </script>
 </body>

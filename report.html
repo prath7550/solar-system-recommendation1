@@ -3,123 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Solar System Recommendation - Shri Datta Traders & Electricals</title>
+    <title>Solar Calculator - Report</title>
     <style>
         body {
             font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
-            color: #333;
         }
         .container {
-            max-width: 1200px;
-            margin: 0 auto;
+            max-width: 800px;
+            margin: 50px auto;
             padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
         h1 {
             text-align: center;
-            font-size: 36px;
-            color: #e67e22;
+            color: #333;
         }
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
+        .details {
+            margin-top: 20px;
         }
-        .card {
-            background: #fff;
-            border-radius: 10px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            text-align: center;
-            animation: fadeIn 0.8s ease-out;
-        }
-        .card img {
-            max-width: 100px;
-            margin-bottom: 10px;
+        .details p {
+            font-size: 16px;
+            line-height: 1.5;
+            margin: 10px 0;
         }
         .highlight {
-            color: #e67e22;
+            color: #28a745;
             font-weight: bold;
-        }
-
-        /* Fade-in animation */
-        @keyframes fadeIn {
-            0% { opacity: 0; }
-            100% { opacity: 1; }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Shri Datta Traders & Electricals</h1>
-        <div class="grid">
-            <div class="card">
-                <h2>Recommended Solar System Size</h2>
-                <p><span class="highlight" id="solarSize">2.6 kW</span></p>
-                <p>Area required: <span class="highlight" id="areaRequired">261 sqft</span></p>
-                <p>With Net Metering: <span class="highlight">Yes</span></p>
-            </div>
-
-            <div class="card">
-                <h2>Your Monthly Bill</h2>
-                <p>Current Bill: <span class="highlight" id="currentBill">₹3,000</span></p>
-                <p>Bill with Solar: <span class="highlight" id="solarBill">₹1,226</span></p>
-                <p>Start Saving: <span class="highlight">59% from Day 1</span></p>
-            </div>
-
-            <div class="card">
-                <h2>Your Contribution to the Environment</h2>
-                <p>Trees Planted: <span class="highlight" id="treesPlanted">104 trees</span></p>
-                <p>CO2 Emission Reduced: <span class="highlight" id="co2Reduction">3.64 tons</span></p>
-            </div>
-
-            <div class="card">
-                <h2>Financial Benefits</h2>
-                <p>System Cost: <span class="highlight" id="systemCost">₹1.4 Lacs</span></p>
-                <p>Investment Required: <span class="highlight" id="investmentRequired">₹1.4 Lacs</span></p>
-                <p>Yearly Savings on Bill: <span class="highlight" id="yearlySavings">₹44,000</span></p>
-                <p>Return on Investment: <span class="highlight" id="roi">31.42% p.a.</span></p>
-            </div>
-
-            <div class="card">
-                <h2>Subsidy Information</h2>
-                <p>Subsidy Applicable: <span class="highlight" id="subsidyAmount">₹78,000</span></p>
-                <p>Investment After Subsidy: <span class="highlight" id="investmentAfterSubsidy">₹1,22,000</span></p>
-            </div>
-
-            <div class="card">
-                <h2>Units Generated and Bill Savings</h2>
-                <p>Units Generated per Year: <span class="highlight" id="unitsGenerated">1,460 units</span></p>
-                <p>Yearly Bill Savings: <span class="highlight" id="billSavings">₹60,000</span></p>
-            </div>
+        <h1>Solar Calculator Report</h1>
+        <div class="details">
+            <p>City: <span class="highlight" id="city"></span></p>
+            <p>State: <span class="highlight" id="state"></span></p>
+            <p>Recommended Solar System Size: <span class="highlight" id="solarSystemSize"></span> kW</p>
+            <p>Area Required: <span class="highlight" id="areaRequired"></span> sq. ft.</p>
+            <p>Units Generated Per Year: <span class="highlight" id="unitsGeneratedPerYear"></span> units</p>
+            <p>Yearly Savings: ₹<span class="highlight" id="yearlySavings"></span></p>
+            <p>Investment Required: ₹<span class="highlight" id="investmentRequired"></span></p>
+            <p>Subsidy Amount: ₹<span class="highlight" id="subsidyAmount"></span></p>
+            <p>Investment After Subsidy: ₹<span class="highlight" id="investmentAfterSubsidy"></span></p>
+            <p>Trees Planted: <span class="highlight" id="treesPlanted"></span></p>
+            <p>CO2 Reduction: <span class="highlight" id="co2Reduction"></span> tons</p>
         </div>
     </div>
-
     <script>
         window.onload = function() {
-            // Get the data from localStorage
-            var solarSize = localStorage.getItem('solarSystemSize');
-            var areaRequired = localStorage.getItem('areaRequired');
-            var savingsPerMonth = localStorage.getItem('savings');
-            var bill = localStorage.getItem('bill');
-            var systemCostPerKw = localStorage.getItem('systemCostPerKw'); 
-            var treesPlanted = localStorage.getItem('treesPlanted');
-            var co2Reduction = localStorage.getItem('co2Reduction');
-            var unitsGeneratedPerYear = localStorage.getItem('unitsGeneratedPerYear');
-            var yearlySavings = localStorage.getItem('yearlySavings');
-            var subsidyAmount = localStorage.getItem('subsidyAmount');
-            var investmentRequired = localStorage.getItem('investmentRequired');
-            var investmentAfterSubsidy = localStorage.getItem('investmentAfterSubsidy');
-
-            // Update the elements with the data
-            document.getElementById('solarSize').textContent = solarSize + ' kW';
-            document.getElementById('areaRequired').textContent = areaRequired + ' sqft';
-            document.getElementById('currentBill').textContent = '₹' + bill;
-            document.getElementById('solarBill').textContent = '₹' + (bill - savingsPerMonth);
-            document.getElementById('treesPlanted').textContent = treesPlanted + ' trees';
-            document.getElementById('co2Reduction').textContent = co2Reduction + ' tons';
-            document.getElementById('unitsGenerated').textContent = unitsGeneratedPerYear + ' units';
-            document.getElementById('billSavings').textContent = '₹' + yearlySavings;
-            document.getElementById('subsidyAmount').textContent = '₹' + subsidyAmount;
+            document.getElementById('city').textContent = localStorage.getItem('city');
+            document.getElementById('state').textContent = localStorage.getItem('state');
+            document.getElementById('solarSystemSize').textContent = localStorage.getItem('solarSystemSize');
+            document.getElementById('areaRequired').textContent = localStorage.getItem('areaRequired');
+            document.getElementById('unitsGeneratedPerYear').textContent = localStorage.getItem('unitsGeneratedPerYear');
+            document.getElementById('yearlySavings').textContent = localStorage.getItem('yearlySavings');
+            document.getElementById('investmentRequired').textContent = localStorage.getItem('investmentRequired');
+            document.getElementById('subsidyAmount').textContent = localStorage.getItem('subsidyAmount');
+            document.getElementById('investmentAfterSubsidy').textContent = localStorage.getItem('investmentAfterSubsidy');
+            document.getElementById('treesPlanted').textContent = localStorage.getItem('treesPlanted');
+            document.getElementById('co2Reduction').textContent = localStorage.getItem('co2Reduction');
+        };
+    </script>
+</body>
+</html>
