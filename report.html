@@ -33,6 +33,7 @@
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             padding: 20px;
             text-align: center;
+            animation: fadeIn 0.8s ease-out;
         }
         .card img {
             max-width: 100px;
@@ -41,6 +42,12 @@
         .highlight {
             color: #e67e22;
             font-weight: bold;
+        }
+
+        /* Fade-in animation */
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
         }
     </style>
 </head>
@@ -72,8 +79,8 @@
                 <h2>Financial Benefits</h2>
                 <p>System Cost: <span class="highlight" id="systemCost">₹1.4 Lacs</span></p>
                 <p>Investment Required: <span class="highlight" id="investmentRequired">₹1.4 Lacs</span></p>
-                <p>Yearly Savings on Electricity Bills: <span class="highlight" id="yearlySavings">₹52,800</span></p>
-                <p>Return on Investment (ROI): <span class="highlight" id="roi">13.0% p.a.</span></p>
+                <p>Yearly Savings on Bill: <span class="highlight" id="yearlySavings">₹44,000</span></p>
+                <p>Return on Investment: <span class="highlight" id="roi">31.42% p.a.</span></p>
             </div>
         </div>
     </div>
@@ -85,28 +92,33 @@
             var areaRequired = localStorage.getItem('areaRequired');
             var savingsPerMonth = localStorage.getItem('savings');
             var bill = localStorage.getItem('bill');
-            var systemCostPerKw = localStorage.getItem('systemCostPerKw'); // New input for cost per kW
+            var systemCostPerKw = localStorage.getItem('systemCostPerKw'); // Get cost per kW from localStorage
 
-            // Update the elements with the data
-            document.getElementById('solarSize').textContent = solarSize + ' kW';
-            document.getElementById('areaRequired').textContent = areaRequired + ' sqft';
-            document.getElementById('currentBill').textContent = '₹' + bill;
-            document.getElementById('solarBill').textContent = '₹' + (bill - savingsPerMonth);
+            // Check if the systemCostPerKw is available and valid
+            if(systemCostPerKw && systemCostPerKw > 0) {
+                // Update the elements with the data
+                document.getElementById('solarSize').textContent = solarSize + ' kW';
+                document.getElementById('areaRequired').textContent = areaRequired + ' sqft';
+                document.getElementById('currentBill').textContent = '₹' + bill;
+                document.getElementById('solarBill').textContent = '₹' + (bill - savingsPerMonth);
 
-            // Calculate yearly savings (savings per month * 12)
-            var yearlySavings = savingsPerMonth * 12;
+                // Calculate yearly savings (savings per month * 12)
+                var yearlySavings = savingsPerMonth * 12;
 
-            // Calculate the total investment required (solar system size * cost per kW)
-            var investmentRequired = solarSize * systemCostPerKw;
+                // Calculate the total investment required (solar system size * cost per kW)
+                var investmentRequired = solarSize * systemCostPerKw;
 
-            // Calculate Return on Investment (ROI)
-            var roi = (yearlySavings / investmentRequired) * 100;
+                // Calculate Return on Investment (ROI)
+                var roi = (yearlySavings / investmentRequired) * 100;
 
-            // Update the elements with the calculated values
-            document.getElementById('systemCost').textContent = '₹' + (solarSize * systemCostPerKw);
-            document.getElementById('investmentRequired').textContent = '₹' + investmentRequired;
-            document.getElementById('yearlySavings').textContent = '₹' + yearlySavings;
-            document.getElementById('roi').textContent = roi.toFixed(2) + '% p.a.';
+                // Update the elements with the calculated values
+                document.getElementById('systemCost').textContent = '₹' + (solarSize * systemCostPerKw).toFixed(2);
+                document.getElementById('investmentRequired').textContent = '₹' + investmentRequired.toFixed(2);
+                document.getElementById('yearlySavings').textContent = '₹' + yearlySavings.toFixed(2);
+                document.getElementById('roi').textContent = roi.toFixed(2) + '% p.a.';
+            } else {
+                alert("Invalid or missing cost per kW value!");
+            }
         }
     </script>
 </body>
