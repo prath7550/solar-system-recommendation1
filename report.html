@@ -88,6 +88,12 @@
                 <p>Subsidy Applicable: <span class="highlight" id="subsidyAmount">₹78,000</span></p>
                 <p>Investment After Subsidy: <span class="highlight" id="investmentAfterSubsidy">₹1,22,000</span></p>
             </div>
+
+            <div class="card">
+                <h2>Units Generated and Bill Savings</h2>
+                <p>Units Generated per Year: <span class="highlight" id="unitsGenerated">1,460 units</span></p>
+                <p>Yearly Bill Savings: <span class="highlight" id="billSavings">₹60,000</span></p>
+            </div>
         </div>
     </div>
 
@@ -101,6 +107,8 @@
             var systemCostPerKw = localStorage.getItem('systemCostPerKw'); 
             var treesPlanted = localStorage.getItem('treesPlanted');
             var co2Reduction = localStorage.getItem('co2Reduction');
+            var unitsGeneratedPerYear = localStorage.getItem('unitsGeneratedPerYear');
+            var yearlySavings = localStorage.getItem('yearlySavings');
 
             // Update the elements with the data
             document.getElementById('solarSize').textContent = solarSize + ' kW';
@@ -112,29 +120,4 @@
             var yearlySavings = savingsPerMonth * 12;
 
             // Calculate the total investment required (solar system size * cost per kW)
-            var investmentRequired = solarSize * systemCostPerKw;
-
-            // Calculate Return on Investment (ROI)
-            var roi = (yearlySavings / investmentRequired) * 100;
-
-            // Calculate subsidy and investment after subsidy
-            var subsidyAmount = 78000; // Fixed subsidy
-            var investmentAfterSubsidy = investmentRequired - subsidyAmount;
-
-            // Update the elements with the calculated values
-            document.getElementById('systemCost').textContent = '₹' + (solarSize * systemCostPerKw).toFixed(2);
-            document.getElementById('investmentRequired').textContent = '₹' + investmentRequired.toFixed(2);
-            document.getElementById('yearlySavings').textContent = '₹' + yearlySavings.toFixed(2);
-            document.getElementById('roi').textContent = roi.toFixed(2) + '% p.a.';
-
-            // Update environmental impact values
-            document.getElementById('treesPlanted').textContent = treesPlanted + ' trees';
-            document.getElementById('co2Reduction').textContent = co2Reduction + ' tons';
-
-            // Update subsidy information
-            document.getElementById('subsidyAmount').textContent = '₹' + subsidyAmount;
-            document.getElementById('investmentAfterSubsidy').textContent = '₹' + investmentAfterSubsidy.toFixed(2);
-        }
-    </script>
-</body>
-</html>
+            var investmentRequired = solarSize

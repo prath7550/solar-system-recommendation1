@@ -82,6 +82,9 @@
                 <label for="costPerKw">Cost per kW (₹):</label>
                 <input type="number" id="costPerKw" name="costPerKw" required>
 
+                <label for="unitRate">Unit Tariff Rate (₹/unit):</label>
+                <input type="number" id="unitRate" name="unitRate" required>
+
                 <button type="button" onclick="generateReport()">Get Solar Recommendation</button>
             </form>
         </div>
@@ -95,6 +98,7 @@
             var bill = document.getElementById('bill').value;
             var type = document.getElementById('type').value;
             var costPerKw = document.getElementById('costPerKw').value;
+            var unitRate = document.getElementById('unitRate').value;
 
             // Simple logic to calculate solar system size
             var solarSystemSize = (bill / 1000) * 1.5; // Example calculation based on bill
@@ -105,6 +109,13 @@
             var treesPlanted = solarSystemSize * 41; // 1 kW offsets approximately 41 trees
             var co2Reduction = solarSystemSize * 1.4; // 1 kW offsets approximately 1.4 tons of CO2 per year
 
+            // Calculate units generated per year
+            var unitsGeneratedPerDay = solarSystemSize * 4; // 4 units per kW per day
+            var unitsGeneratedPerYear = unitsGeneratedPerDay * 365; // Total units in a year
+
+            // Calculate yearly savings based on unit tariff rate
+            var yearlySavings = unitsGeneratedPerYear * unitRate;
+
             // Store the results in localStorage
             localStorage.setItem('city', city);
             localStorage.setItem('state', state);
@@ -114,10 +125,13 @@
             localStorage.setItem('areaRequired', areaRequired);
             localStorage.setItem('savings', savings);
             localStorage.setItem('systemCostPerKw', costPerKw); // Save cost per kW to localStorage
+            localStorage.setItem('unitRate', unitRate); // Save unit rate to localStorage
 
             // Save the calculated trees and CO2 data
             localStorage.setItem('treesPlanted', treesPlanted);
             localStorage.setItem('co2Reduction', co2Reduction);
+            localStorage.setItem('unitsGeneratedPerYear', unitsGeneratedPerYear);
+            localStorage.setItem('yearlySavings', yearlySavings);
 
             // Redirect to the report page
             window.location.href = "report.html";
