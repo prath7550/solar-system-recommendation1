@@ -1,141 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Solar Calculator - Input</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(to right, #56ccf2, #2f80ed);
-            margin: 0;
-            padding: 0;
-            color: #fff;
-        }
-        .container {
-            max-width: 600px;
-            margin: 80px auto;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(10px);
-        }
-        h1 {
-            text-align: center;
-            margin-bottom: 20px;
-            font-size: 28px;
-            color: #fff;
-        }
-        label {
-            display: block;
-            margin-top: 15px;
-            font-size: 16px;
-            font-weight: bold;
-        }
-        input, select {
-            width: 100%;
-            padding: 10px;
-            margin-top: 5px;
-            border: none;
-            border-radius: 6px;
-            font-size: 14px;
-        }
-        input:focus, select:focus {
-            outline: none;
-            border: 2px solid #56ccf2;
-            box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
-        }
-        button {
-            width: 100%;
-            padding: 12px;
-            margin-top: 20px;
-            background: linear-gradient(to right, #56ccf2, #2f80ed);
-            color: #fff;
-            border: none;
-            border-radius: 6px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: all 0.3s ease-in-out;
-        }
-        button:hover {
-            transform: scale(1.05);
-            background: linear-gradient(to right, #2f80ed, #56ccf2);
-        }
-        .fade-in {
-            animation: fadeIn 1s ease-in-out;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solar Calculator</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container animate__animated animate__fadeIn">
-        <h1>🌞 Solar Calculator</h1>
-        <form id="solarForm">
-            <label for="city">City:</label>
-            <input type="text" id="city" required>
-            
-            <label for="state">State:</label>
-            <input type="text" id="state" required>
-            
-            <label for="bill">Monthly Electricity Bill (₹):</label>
-            <input type="number" id="bill" required>
-            
-            <label for="type">System Type:</label>
-            <select id="type" required>
-                <option value="residential">Residential</option>
-                <option value="commercial">Commercial</option>
-                <option value="industrial">Industrial</option>
-            </select>
-            
-            <label for="costPerKw">Cost per kW (₹):</label>
-            <input type="number" id="costPerKw" required>
-            
-            <label for="unitRate">Unit Tariff Rate (₹):</label>
-            <input type="number" id="unitRate" required>
-            
-            <button type="button" onclick="calculateAndProceed()">Calculate</button>
-        </form>
-    </div>
-    <script>
-        function calculateAndProceed() {
-            const city = document.getElementById('city').value;
-            const state = document.getElementById('state').value;
-            const bill = parseFloat(document.getElementById('bill').value);
-            const type = document.getElementById('type').value;
-            const costPerKw = parseFloat(document.getElementById('costPerKw').value);
-            const unitRate = parseFloat(document.getElementById('unitRate').value);
+  <header>
+    <h1>Solar Calculator</h1>
+  </header>
+  <main>
+    <section class="input-section">
+      <h2>Enter Your Details</h2>
+      <form id="solarForm">
+        <label for="city">City:</label>
+        <input type="text" id="city" required>
 
-            const solarSystemSize = (bill / 1000) * 1.5;
-            const areaRequired = solarSystemSize * 100;
-            const unitsGeneratedPerYear = solarSystemSize * 4 * 365;
-            const yearlySavings = unitsGeneratedPerYear * unitRate;
-            const investmentRequired = solarSystemSize * costPerKw;
-            const subsidyAmount = 78000;
-            const investmentAfterSubsidy = investmentRequired - subsidyAmount;
-            const treesPlanted = solarSystemSize * 41;
-            const co2Reduction = solarSystemSize * 1.4;
+        <label for="state">State:</label>
+        <input type="text" id="state" required>
 
-            localStorage.setItem('city', city);
-            localStorage.setItem('state', state);
-            localStorage.setItem('bill', bill);
-            localStorage.setItem('type', type);
-            localStorage.setItem('solarSystemSize', solarSystemSize.toFixed(2));
-            localStorage.setItem('areaRequired', areaRequired.toFixed(2));
-            localStorage.setItem('unitsGeneratedPerYear', unitsGeneratedPerYear.toFixed(2));
-            localStorage.setItem('yearlySavings', yearlySavings.toFixed(2));
-            localStorage.setItem('investmentRequired', investmentRequired.toFixed(2));
-            localStorage.setItem('subsidyAmount', subsidyAmount);
-            localStorage.setItem('investmentAfterSubsidy', investmentAfterSubsidy.toFixed(2));
-            localStorage.setItem('treesPlanted', Math.round(treesPlanted));
-            localStorage.setItem('co2Reduction', co2Reduction.toFixed(2));
+        <label for="monthlyBill">Monthly Electricity Bill (₹):</label>
+        <input type="number" id="monthlyBill" required>
 
-            window.location.href = 'report.html';
-        }
-    </script>
+        <label for="costPerKW">Cost Per kW (₹):</label>
+        <input type="number" id="costPerKW" required>
+
+        <label for="tariffRate">Tariff Rate (₹/unit):</label>
+        <input type="number" id="tariffRate" required>
+
+        <label for="type">Type:</label>
+        <select id="type" required>
+          <option value="residential">Residential</option>
+          <option value="commercial">Commercial</option>
+          <option value="industrial">Industrial</option>
+        </select>
+
+        <button type="submit">Calculate</button>
+      </form>
+    </section>
+  </main>
+  <footer>
+    <p>© 2025 Solar Calculator</p>
+  </footer>
+  <script src="script.js"></script>
 </body>
 </html>
