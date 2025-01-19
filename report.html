@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solar System Recommendation - Shri Datta Traders & Electricals</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            font-size: 36px;
+            color: #e67e22;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .card {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+        }
+        .card img {
+            max-width: 100px;
+            margin-bottom: 10px;
+        }
+        .highlight {
+            color: #e67e22;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Shri Datta Traders & Electricals</h1>
+        <div class="grid">
+            <div class="card">
+                <h2>Recommended Solar System Size</h2>
+                <p><span class="highlight" id="solarSize">2.6 kW</span></p>
+                <p>Area required: <span class="highlight" id="areaRequired">261 sqft</span></p>
+                <p>With Net Metering: <span class="highlight">Yes</span></p>
+            </div>
+
+            <div class="card">
+                <h2>Your Monthly Bill</h2>
+                <p>Current Bill: <span class="highlight" id="currentBill">₹3,000</span></p>
+                <p>Bill with Solar: <span class="highlight" id="solarBill">₹1,226</span></p>
+                <p>Start Saving: <span class="highlight">59% from Day 1</span></p>
+            </div>
+
+            <div class="card">
+                <h2>Your Contribution to the Environment</h2>
+                <p>117 trees added</p>
+                <p>3 cars off the road</p>
+            </div>
+
+            <div class="card">
+                <h2>Financial Benefits</h2>
+                <p>System Cost: <span class="highlight">₹1.4 Lacs</span></p>
+                <p>Lifetime Savings: <span class="highlight" id="lifetimeSavings">₹4.4 Lacs</span></p>
+                <p>Return on Investment: <span class="highlight">13.0% p.a.</span></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.onload = function() {
+            // Get the data from localStorage
+            var solarSize = localStorage.getItem('solarSystemSize');
+            var areaRequired = localStorage.getItem('areaRequired');
+            var savings = localStorage.getItem('savings');
+            var bill = localStorage.getItem('bill');
+
+            // Update the elements with the data
+            document.getElementById('solarSize').textContent = solarSize + ' kW';
+            document.getElementById('areaRequired').textContent = areaRequired + ' sqft';
+            document.getElementById('currentBill').textContent = '₹' + bill;
+            document.getElementById('solarBill').textContent = '₹' + (bill - savings);
+            document.getElementById('lifetimeSavings').textContent = '₹' + savings * 12; // Assuming lifetime savings are yearly
+        }
+    </script>
+</body>
+</html>
