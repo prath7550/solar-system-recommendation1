@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solar System Results</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2 {
+            text-align: center;
+            color: #2c3e50;
+        }
+        .result-card {
+            margin: 20px 0;\n            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .highlight {
+            color: #e67e22;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Shri Datta Traders & Electricals</h1>
+        <h2>Your Solar System Recommendation</h2>
+        <div id="results"></div>
+    </div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const systemSize = params.get('systemSize');
+        const areaRequired = params.get('areaRequired');
+        const systemCost = params.get('systemCost');
+        const savings = params.get('savings');
+        const roi = params.get('roi');
+        const treesAdded = params.get('treesAdded');
+        const carsOffRoad = params.get('carsOffRoad');
+
+        const resultsDiv = document.getElementById('results');
+        resultsDiv.innerHTML = `
+            <div class="result-card">
+                <h3>Recommended System Size</h3>
+                <p><span class="highlight">${systemSize} kW</span></p>
+                <p>Area required: <span class="highlight">${areaRequired} sqft</span></p>
+            </div>
+            <div class="result-card">
+                <h3>Financials</h3>
+                <p>System Cost: <span class="highlight">₹${systemCost}</span></p>
+                <p>Monthly Savings: <span class="highlight">₹${savings}</span></p>
+                <p>Return on Investment: <span class="highlight">${roi}% p.a.</span></p>
+            </div>
+            <div class="result-card">
+                <h3>Environmental Benefits</h3>
+                <p>Trees Added: <span class="highlight">${treesAdded}</span></p>
+                <p>Cars Off the Road: <span class="highlight">${carsOffRoad}</span></p>
+            </div>
+        `;
+    </script>
+</body>
+</html>
