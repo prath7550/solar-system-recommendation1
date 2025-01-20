@@ -25,7 +25,8 @@
             color: #2c3e50;
         }
         .result-card {
-            margin: 20px 0;\n            padding: 15px;
+            margin: 20px 0;
+            padding: 15px;
             background: #f9f9f9;
             border-radius: 5px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -45,7 +46,7 @@
 
     <script>
         const params = new URLSearchParams(window.location.search);
-        const systemSize = params.get('systemSize');
+        const systemSize = parseFloat(params.get('systemSize'));
         const areaRequired = params.get('areaRequired');
         const systemCost = params.get('systemCost');
         const savings = params.get('savings');
@@ -53,12 +54,23 @@
         const treesAdded = params.get('treesAdded');
         const carsOffRoad = params.get('carsOffRoad');
 
+        // Calculate total units generated
+        const unitsPerDay = systemSize * 4; // 4 units generated per kW per day
+        const unitsPerMonth = (unitsPerDay * 30).toFixed(0); // Approx. 30 days in a month
+        const unitsPerYear = (unitsPerDay * 365).toFixed(0); // 365 days in a year
+
         const resultsDiv = document.getElementById('results');
         resultsDiv.innerHTML = `
             <div class="result-card">
                 <h3>Recommended System Size</h3>
                 <p><span class="highlight">${systemSize} kW</span></p>
                 <p>Area required: <span class="highlight">${areaRequired} sqft</span></p>
+            </div>
+            <div class="result-card">
+                <h3>Energy Generation</h3>
+                <p>Daily Units: <span class="highlight">${unitsPerDay.toFixed(1)} kWh</span></p>
+                <p>Monthly Units: <span class="highlight">${unitsPerMonth} kWh</span></p>
+                <p>Yearly Units: <span class="highlight">${unitsPerYear} kWh</span></p>
             </div>
             <div class="result-card">
                 <h3>Financials</h3>
