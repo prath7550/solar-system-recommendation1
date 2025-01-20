@@ -15,7 +15,7 @@ document.getElementById("solarForm").addEventListener("submit", function (e) {
     const selectedRate = rates[consumerType];
     const avgRate =
         consumerType === "residential"
-            ? (selectedRate.energy[0] + selectedRate.energy[1] + selectedRate.energy[2]) / 3
+            ? selectedRate.energy.reduce((a, b) => a + b) / selectedRate.energy.length
             : selectedRate.energy;
 
     const recommendedSystemSize = Math.ceil(monthlyBill / (avgRate * 30));
