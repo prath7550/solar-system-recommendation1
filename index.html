@@ -3,74 +3,147 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Solar System Recommendation</title>
+    <title>Solar Calculator</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
-            color: #333;
+            background-color: #f4f4f9;
         }
         .container {
             max-width: 800px;
-            margin: 50px auto;
+            margin: 30px auto;
             padding: 20px;
-            background: #fff;
-            border-radius: 10px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            background: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
         }
         h1, h2 {
             text-align: center;
             color: #333;
         }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
         label {
             font-weight: bold;
-            display: block;
-            margin-top: 10px;
+            margin-bottom: 5px;
         }
         input, select, button {
-            width: 100%;
             padding: 10px;
-            margin: 10px 0;
+            font-size: 1rem;
             border: 1px solid #ccc;
-            border-radius: 5px;
+            border-radius: 4px;
+            width: 100%;
         }
         button {
             background-color: #28a745;
-            color: white;
-            font-size: 16px;
+            color: #fff;
+            border: none;
             cursor: pointer;
+            font-size: 1rem;
         }
         button:hover {
             background-color: #218838;
         }
+        .results {
+            display: none;
+        }
+        .result-item {
+            margin: 15px 0;
+            padding: 10px;
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Shri Datta Traders & Electricals</h1>
-        <h2>Solar System Recommendation</h2>
+    <div class="container" id="page1">
+        <h1>Solar System Calculator</h1>
         <form id="solarForm">
-            <label for="city">City:</label>
-            <input type="text" id="city" name="city" placeholder="Enter your city" required>
+            <label for="city">City</label>
+            <input type="text" id="city" name="city" required>
 
-            <label for="consumerType">Consumer Type:</label>
-            <select id="consumerType" name="consumerType" required>
-                <option value="residential">Residential</option>
-                <option value="commercial">Commercial</option>
-                <option value="industrial">Industrial</option>
-            </select>
+            <label for="state">State</label>
+            <input type="text" id="state" name="state" required>
 
-            <label for="monthlyBill">Monthly Electricity Bill (₹):</label>
-            <input type="number" id="monthlyBill" name="monthlyBill" placeholder="Enter your monthly bill" required>
+            <label for="monthlyBill">Monthly Electricity Bill (₹)</label>
+            <input type="number" id="monthlyBill" name="monthlyBill" min="0" required>
 
-            <label for="costPerKW">System Cost Per kW (₹):</label>
-            <input type="number" id="costPerKW" name="costPerKW" placeholder="Enter cost per kW" required>
+            <label for="systemPrice">System Price per kW (₹)</label>
+            <input type="number" id="systemPrice" name="systemPrice" min="0" required>
 
-            <button type="submit">Get Recommendation</button>
+            <button type="button" onclick="calculateSolarSystem()">Calculate</button>
         </form>
     </div>
-    <script src="script.js"></script>
+
+    <div class="container" id="page2" style="display: none;">
+        <h2>Calculation Results</h2>
+
+        <div class="result-item" id="recommendedSystem"></div>
+
+        <div class="result-item" id="unitGeneration"></div>
+
+        <div class="result-item" id="totalCost"></div>
+
+        <div class="result-item" id="savings"></div>
+
+        <div class="result-item" id="environmentalImpact"></div>
+
+        <button onclick="resetForm()">Start Over</button>
+    </div>
+
+    <script>
+        function calculateSolarSystem() {
+            const city = document.getElementById('city').value;
+            const state = document.getElementById('state').value;
+            const monthlyBill = parseFloat(document.getElementById('monthlyBill').value);
+            const systemPrice = parseFloat(document.getElementById('systemPrice').value);
+
+            if (!city || !state || isNaN(monthlyBill) || isNaN(systemPrice)) {
+                alert('Please fill in all the fields correctly.');
+                return;
+            }
+
+            // Constants and assumptions
+            const dailyGenerationPerKW = 4; // Units per kW per day
+            const monthlyGenerationPerKW = dailyGenerationPerKW * 30; // Units per kW per month
+            const yearlyGenerationPerKW = dailyGenerationPerKW * 365; // Units per kW per year
+            const co2ReductionPerKW = 1200; // CO2 reduction in kg per kW per year
+            const plantsPerKW = 15; // Number of trees equivalent per kW
+
+            // Calculations
+            const recommendedKW = monthlyBill / monthlyGenerationPerKW; // Recommended system size in kW
+            const totalCost = recommendedKW * systemPrice; // Total system cost
+            const dailyGeneration = recommendedKW * dailyGenerationPerKW; // Daily unit generation
+            const monthlyGeneration = recommendedKW * monthlyGenerationPerKW; // Monthly unit generation
+            const yearlyGeneration = recommendedKW * yearlyGenerationPerKW; // Yearly unit generation
+            const monthlySavings = monthlyBill; // Assume 100% bill reduction
+            const yearlySavings = monthlySavings * 12; // Yearly savings
+            const co2Reduction = recommendedKW * co2ReductionPerKW; // CO2 reduction
+            const treesPlanted = recommendedKW * plantsPerKW; // Number of trees equivalent
+
+            // Display Results
+            document.getElementById('recommendedSystem').innerText = `Recommended Solar System Size: ${recommendedKW.toFixed(2)} kW`;
+            document.getElementById('unitGeneration').innerText = `Daily Unit Generation: ${dailyGeneration.toFixed(2)} units\nMonthly Unit Generation: ${monthlyGeneration.toFixed(2)} units\nYearly Unit Generation: ${yearlyGeneration.toFixed(2)} units`;
+            document.getElementById('totalCost').innerText = `Total System Cost: ₹${totalCost.toLocaleString()}`;
+            document.getElementById('savings').innerText = `Monthly Savings: ₹${monthlySavings.toLocaleString()}\nYearly Savings: ₹${yearlySavings.toLocaleString()}`;
+            document.getElementById('environmentalImpact').innerText = `Environmental Impact:\nCO2 Reduction: ${co2Reduction.toLocaleString()} kg/year\nEquivalent Trees Planted: ${treesPlanted.toLocaleString()}`;
+
+            // Switch Pages
+            document.getElementById('page1').style.display = 'none';
+            document.getElementById('page2').style.display = 'block';
+        }
+
+        function resetForm() {
+            document.getElementById('solarForm').reset();
+            document.getElementById('page1').style.display = 'block';
+            document.getElementById('page2').style.display = 'none';
+        }
+    </script>
 </body>
 </html>
