@@ -4,146 +4,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Solar Calculator</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f9;
-        }
-        .container {
-            max-width: 800px;
-            margin: 30px auto;
-            padding: 20px;
-            background: #ffffff;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-        }
-        h1, h2 {
-            text-align: center;
-            color: #333;
-        }
-        form {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-        label {
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-        input, select, button {
-            padding: 10px;
-            font-size: 1rem;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            width: 100%;
-        }
-        button {
-            background-color: #28a745;
-            color: #fff;
-            border: none;
-            cursor: pointer;
-            font-size: 1rem;
-        }
-        button:hover {
-            background-color: #218838;
-        }
-        .results {
-            display: none;
-        }
-        .result-item {
-            margin: 15px 0;
-            padding: 10px;
-            background: #f9f9f9;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
 </head>
 <body>
-    <div class="container" id="page1">
-        <h1>Solar System Calculator</h1>
-        <form id="solarForm">
-            <label for="city">City</label>
-            <input type="text" id="city" name="city" required>
+    <header>
+        <h1>Solar Calculator</h1>
+    </header>
+    <main>
+        <section>
+            <label for="electricityBill">Monthly Electricity Bill (₹):</label>
+            <input type="number" id="electricityBill" placeholder="Enter your monthly bill">
 
-            <label for="state">State</label>
-            <input type="text" id="state" name="state" required>
+            <label for="costPerKW">Cost Per kW (₹):</label>
+            <input type="number" id="costPerKW" placeholder="Enter cost per kW">
 
-            <label for="monthlyBill">Monthly Electricity Bill (₹)</label>
-            <input type="number" id="monthlyBill" name="monthlyBill" min="0" required>
+            <label for="state">Select State:</label>
+            <select id="state">
+                <option value="maharashtra">Maharashtra</option>
+                <option value="gujarat">Gujarat</option>
+                <!-- Add more states as needed -->
+            </select>
 
-            <label for="systemPrice">System Price per kW (₹)</label>
-            <input type="number" id="systemPrice" name="systemPrice" min="0" required>
+            <label for="userType">User Type:</label>
+            <select id="userType">
+                <option value="residential">Residential</option>
+                <option value="commercial">Commercial</option>
+                <option value="industrial">Industrial</option>
+            </select>
 
-            <button type="button" onclick="calculateSolarSystem()">Calculate</button>
-        </form>
-    </div>
-
-    <div class="container" id="page2" style="display: none;">
-        <h2>Calculation Results</h2>
-
-        <div class="result-item" id="recommendedSystem"></div>
-
-        <div class="result-item" id="unitGeneration"></div>
-
-        <div class="result-item" id="totalCost"></div>
-
-        <div class="result-item" id="savings"></div>
-
-        <div class="result-item" id="environmentalImpact"></div>
-
-        <button onclick="resetForm()">Start Over</button>
-    </div>
-
-    <script>
-        function calculateSolarSystem() {
-            const city = document.getElementById('city').value;
-            const state = document.getElementById('state').value;
-            const monthlyBill = parseFloat(document.getElementById('monthlyBill').value);
-            const systemPrice = parseFloat(document.getElementById('systemPrice').value);
-
-            if (!city || !state || isNaN(monthlyBill) || isNaN(systemPrice)) {
-                alert('Please fill in all the fields correctly.');
-                return;
-            }
-
-            // Constants and assumptions
-            const dailyGenerationPerKW = 4; // Units per kW per day
-            const monthlyGenerationPerKW = dailyGenerationPerKW * 30; // Units per kW per month
-            const yearlyGenerationPerKW = dailyGenerationPerKW * 365; // Units per kW per year
-            const co2ReductionPerKW = 1200; // CO2 reduction in kg per kW per year
-            const plantsPerKW = 15; // Number of trees equivalent per kW
-
-            // Calculations
-            const recommendedKW = monthlyBill / monthlyGenerationPerKW; // Recommended system size in kW
-            const totalCost = recommendedKW * systemPrice; // Total system cost
-            const dailyGeneration = recommendedKW * dailyGenerationPerKW; // Daily unit generation
-            const monthlyGeneration = recommendedKW * monthlyGenerationPerKW; // Monthly unit generation
-            const yearlyGeneration = recommendedKW * yearlyGenerationPerKW; // Yearly unit generation
-            const monthlySavings = monthlyBill; // Assume 100% bill reduction
-            const yearlySavings = monthlySavings * 12; // Yearly savings
-            const co2Reduction = recommendedKW * co2ReductionPerKW; // CO2 reduction
-            const treesPlanted = recommendedKW * plantsPerKW; // Number of trees equivalent
-
-            // Display Results
-            document.getElementById('recommendedSystem').innerText = `Recommended Solar System Size: ${recommendedKW.toFixed(2)} kW`;
-            document.getElementById('unitGeneration').innerText = `Daily Unit Generation: ${dailyGeneration.toFixed(2)} units\nMonthly Unit Generation: ${monthlyGeneration.toFixed(2)} units\nYearly Unit Generation: ${yearlyGeneration.toFixed(2)} units`;
-            document.getElementById('totalCost').innerText = `Total System Cost: ₹${totalCost.toLocaleString()}`;
-            document.getElementById('savings').innerText = `Monthly Savings: ₹${monthlySavings.toLocaleString()}\nYearly Savings: ₹${yearlySavings.toLocaleString()}`;
-            document.getElementById('environmentalImpact').innerText = `Environmental Impact:\nCO2 Reduction: ${co2Reduction.toLocaleString()} kg/year\nEquivalent Trees Planted: ${treesPlanted.toLocaleString()}`;
-
-            // Switch Pages
-            document.getElementById('page1').style.display = 'none';
-            document.getElementById('page2').style.display = 'block';
-        }
-
-        function resetForm() {
-            document.getElementById('solarForm').reset();
-            document.getElementById('page1').style.display = 'block';
-            document.getElementById('page2').style.display = 'none';
-        }
-    </script>
+            <button onclick="calculate()">Calculate</button>
+        </section>
+        <section id="results">
+            <!-- Results will be dynamically injected here -->
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2025 Solar Calculator</p>
+    </footer>
 </body>
 </html>
