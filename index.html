@@ -4,61 +4,43 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Solar Calculator</title>
-  <style>
-    body { font-family: Arial, sans-serif; margin: 20px; }
-    .container { max-width: 600px; margin: auto; }
-    input, select, button { margin: 10px 0; padding: 10px; width: 100%; }
-    button { background-color: #4CAF50; color: white; border: none; cursor: pointer; }
-    button:hover { background-color: #45a049; }
-    .result { margin-top: 20px; padding: 10px; border: 1px solid #ccc; }
-  </style>
+  <link rel="stylesheet" href="styles.css">
+  <script src="script.js" defer></script>
 </head>
 <body>
   <div class="container">
-    <h2>Solar Calculator</h2>
+    <header>
+      <h1>Solar System Calculator</h1>
+      <p>Calculate the best solar system size for your needs.</p>
+    </header>
+
     <form id="solar-form">
-      <label for="location">Location (City, State):</label>
-      <input type="text" id="location" placeholder="e.g., Nashik, Maharashtra" required>
+      <div class="form-group">
+        <label for="location">Location:</label>
+        <input type="text" id="location" placeholder="Enter your city, e.g., Nashik, Maharashtra" required>
+      </div>
 
-      <label for="monthly-bill">Monthly Electricity Bill (₹):</label>
-      <input type="number" id="monthly-bill" placeholder="e.g., 5000" required>
+      <div class="form-group">
+        <label for="monthly-bill">Monthly Electricity Bill (₹):</label>
+        <input type="number" id="monthly-bill" placeholder="e.g., 5000" required>
+      </div>
 
-      <label for="building-type">Building Type:</label>
-      <select id="building-type">
-        <option value="residential">Residential</option>
-        <option value="commercial">Commercial</option>
-        <option value="industrial">Industrial</option>
-      </select>
+      <div class="form-group">
+        <label for="building-type">Building Type:</label>
+        <select id="building-type">
+          <option value="residential">Residential</option>
+          <option value="commercial">Commercial</option>
+          <option value="industrial">Industrial</option>
+        </select>
+      </div>
 
-      <button type="button" onclick="calculateSolar()">Calculate</button>
+      <button type="button" id="calculate-btn">Calculate</button>
     </form>
 
-    <div class="result" id="result"></div>
+    <div id="result" class="result">
+      <h2>Results</h2>
+      <div id="result-details"></div>
+    </div>
   </div>
-
-  <script>
-    function calculateSolar() {
-      const monthlyBill = document.getElementById('monthly-bill').value;
-      const location = document.getElementById('location').value;
-      const buildingType = document.getElementById('building-type').value;
-
-      if (!monthlyBill || !location || !buildingType) {
-        alert("Please fill in all the fields.");
-        return;
-      }
-
-      // Example Calculation Logic
-      const avgDailyHours = 5; // Average sunlight hours per day
-      const efficiency = 0.8; // System efficiency
-      const systemSize = (monthlyBill / 7) / (avgDailyHours * efficiency); // Simplified calculation
-
-      document.getElementById('result').innerHTML = `
-        <h3>Results</h3>
-        <p>Location: ${location}</p>
-        <p>Building Type: ${buildingType}</p>
-        <p>Recommended Solar System Size: ${systemSize.toFixed(2)} kW</p>
-      `;
-    }
-  </script>
 </body>
 </html>
