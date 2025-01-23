@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Professional Solar Calculator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -24,6 +25,16 @@
         h1 {
             text-align: center;
             color: #333;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .firm-name {
+            text-align: center;
+            font-size: 24px;
+            font-weight: 700;
+            font-family: 'Poppins', sans-serif;
+            color: #007bff;
+            margin-bottom: 20px;
         }
 
         form {
@@ -76,18 +87,41 @@
         }
 
         .report {
-            text-align: center;
-            margin-top: 20px;
+            text-align: left;
+            margin-top: 40px;
+            padding: 20px;
+            background-color: #f0f0f0;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .report h2 {
+            font-size: 24px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .report p {
+            font-size: 16px;
+            line-height: 1.6;
+            margin: 8px 0;
+        }
+
+        .report .highlight {
+            font-weight: 700;
+            color: #007bff;
         }
 
         .report button {
             background-color: #007bff;
             color: #fff;
             border: none;
-            padding: 10px 20px;
+            padding: 12px 20px;
             border-radius: 4px;
             cursor: pointer;
             transition: background-color 0.3s;
+            font-size: 16px;
         }
 
         .report button:hover {
@@ -97,6 +131,7 @@
 </head>
 <body>
     <div class="container">
+        <div class="firm-name">Shri Datta Traders & Electricals</div>
         <h1>Solar Calculator</h1>
         <form id="solarCalculatorForm">
             <label for="address">City/Location:</label>
@@ -133,6 +168,14 @@
         </div>
 
         <div class="report">
+            <h2>Professional Solar Report</h2>
+            <p><span class="highlight">System Size:</span> <span id="systemSizeReport"></span> kW</p>
+            <p><span class="highlight">Monthly Units Generated:</span> <span id="monthlyUnitsReport"></span> kWh</p>
+            <p><span class="highlight">Yearly Units Generated:</span> <span id="yearlyUnitsReport"></span> kWh</p>
+            <p><span class="highlight">Total Savings (₹):</span> <span id="totalSavingsReport"></span> per year</p>
+            <p><span class="highlight">Return on Investment (ROI):</span> <span id="roiYearsReport"></span> years</p>
+            <p><span class="highlight">Trees Added:</span> <span id="treesAddedReport"></span></p>
+            <p><span class="highlight">Cars Removed:</span> <span id="carsRemovedReport"></span></p>
             <button id="printReport">Print Report</button>
         </div>
     </div>
@@ -198,6 +241,15 @@
             document.getElementById('treesAdded').textContent = treesAdded;
             document.getElementById('carsRemoved').textContent = carsRemoved;
             document.getElementById('environment').style.display = 'block';
+
+            // Update the report section with data
+            document.getElementById('systemSizeReport').textContent = systemSize + ' kW';
+            document.getElementById('monthlyUnitsReport').textContent = totalMonthlyUnits.toFixed(2);
+            document.getElementById('yearlyUnitsReport').textContent = totalYearlyUnits.toFixed(2);
+            document.getElementById('totalSavingsReport').textContent = yearlySavings.toLocaleString('en-IN');
+            document.getElementById('roiYearsReport').textContent = roiYears;
+            document.getElementById('treesAddedReport').textContent = treesAdded;
+            document.getElementById('carsRemovedReport').textContent = carsRemoved;
         });
 
         document.getElementById('printReport').addEventListener('click', function() {
