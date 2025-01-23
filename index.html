@@ -9,7 +9,7 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f9f9f9;
+            background-color: #f4f4f4;
         }
 
         .container {
@@ -55,30 +55,43 @@
             background-color: #218838;
         }
 
-        .result {
+        .result, .environment {
             margin-top: 20px;
             padding: 15px;
-            background: #e9ffe9;
-            border: 1px solid #c3e6cb;
+            background: #f9f9f9;
+            border: 1px solid #ccc;
             border-radius: 4px;
             display: none;
         }
 
-        .result span {
+        .result span, .environment span {
             font-weight: bold;
         }
 
-        .environment {
+        .result img, .environment img {
+            width: 24px;
+            height: 24px;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+
+        .report {
+            text-align: center;
             margin-top: 20px;
-            padding: 15px;
-            background: #eaf7ff;
-            border: 1px solid #b3e5fc;
-            border-radius: 4px;
-            display: none;
         }
 
-        .environment span {
-            font-weight: bold;
+        .report button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .report button:hover {
+            background-color: #0056b3;
         }
     </style>
 </head>
@@ -99,19 +112,28 @@
                 <option value="industrial">Industrial</option>
             </select>
 
+            <label for="costPerKW">Cost per kW (₹):</label>
+            <input type="number" id="costPerKW" name="costPerKW" placeholder="Enter system cost per kW" required>
+
             <button type="submit">Calculate</button>
         </form>
 
         <div class="result" id="result">
-            <p>Based on your inputs, you need a solar system size of <span id="systemSize"></span> kW.</p>
-            <p>The estimated cost for this system is <span id="systemCost"></span> ₹.</p>
-            <p>Annual Generation: <span id="annualGeneration"></span> kWh.</p>
+            <p><img src="icons/solar-panel.png" alt="Solar Panel"> System Required: <span id="systemSize"></span> kW</p>
+            <p><img src="icons/bill.png" alt="Electricity Bill"> Total Monthly Units Generated: <span id="monthlyUnits"></span> kWh</p>
+            <p><img src="icons/bill.png" alt="Electricity Bill"> Total Yearly Units Generated: <span id="yearlyUnits"></span> kWh</p>
+            <p><img src="icons/bill.png" alt="Savings"> Total Savings After Installing the System: <span id="totalSavings"></span> ₹ per year</p>
+            <p><img src="icons/money.png" alt="Investment"> Return on Investment (ROI): <span id="roiYears"></span> years</p>
         </div>
 
         <div class="environment" id="environment">
             <p>Your Contribution to the Environment:</p>
-            <p><span id="treesAdded"></span> trees added</p>
-            <p><span id="carsRemoved"></span> cars off the road</p>
+            <p><img src="icons/tree.png" alt="Tree"> <span id="treesAdded"></span> trees added</p>
+            <p><img src="icons/car.png" alt="Car"> <span id="carsRemoved"></span> cars off the road</p>
+        </div>
+
+        <div class="report">
+            <button id="printReport">Print Report</button>
         </div>
     </div>
 
@@ -119,39 +141,67 @@
         document.getElementById('solarCalculatorForm').addEventListener('submit', function(e) {
             e.preventDefault();
 
-            const address = document.getElementById('address').value;
             const bill = parseFloat(document.getElementById('bill').value);
             const type = document.getElementById('type').value;
+            const costPerKW = parseFloat(document.getElementById('costPerKW').value);
 
-            if (isNaN(bill) || bill <= 0) {
-                alert('Please enter a valid electricity bill amount.');
+            if (isNaN(bill) || bill <= 0 || isNaN(costPerKW) || costPerKW <= 0) {
+                alert('Please enter valid inputs.');
                 return;
             }
 
-            // Calculation logic
-            const avgSunHours = 5; // Average sun hours per day for India
-            const costPerKW = 50000; // Estimated cost per kW in ₹
-            const efficiencyFactor = type === 'residential' ? 0.75 : type === 'commercial' ? 0.85 : 0.95;
+            // Tariff rates
+            const tariffRates = {
+                residential: 8,
+                commercial: 15.1,
+                industrial: 10.1
+            };
 
-            const annualConsumption = bill * 12; // Annual electricity consumption in ₹
-            const systemSize = (annualConsumption / 12 / avgSunHours / 5) * efficiencyFactor; // kW size calculation
-            const systemCost = systemSize * costPerKW; // Cost estimation
-            const annualGeneration = systemSize * avgSunHours * 365; // Annual solar generation in kWh
+            // Solar generation cost per unit
+            const solarRates = {
+                residential: 3,
+                commercial: 2.5,
+                industrial: 2.2
+            };
 
-            // Environmental contribution
-            const treesAdded = Math.round(systemSize * 44); // 44 trees per kW as an estimate
-            const carsRemoved = Math.round(systemSize * 0.7); // 0.7 cars per kW as an estimate
+            const unitsPerKWPerDay = 4; // 1 kW system generates 4 units daily
+
+            // Calculate system size required
+            const monthlyUnits = bill / tariffRates[type];
+            const systemSize = Math.ceil(monthlyUnits / (unitsPerKWPerDay * 30));
+
+            // Monthly and yearly units generated by recommended system
+            const totalMonthlyUnits = systemSize * unitsPerKWPerDay * 30;
+            const totalYearlyUnits = totalMonthlyUnits * 12;
+
+            // Savings after installing the system
+            const yearlySavings = (totalYearlyUnits * tariffRates[type]) - (totalYearlyUnits * solarRates[type]);
+
+            // ROI calculation
+            const totalSystemCost = systemSize * costPerKW;
+            const roiYears = (totalSystemCost / yearlySavings).toFixed(1);
+
+            // Environmental contributions
+            const treesAdded = Math.round(systemSize * 44);
+            const carsRemoved = Math.round(systemSize * 0.7);
 
             // Update results
-            document.getElementById('systemSize').textContent = systemSize.toFixed(2);
-            document.getElementById('systemCost').textContent = systemCost.toLocaleString('en-IN');
-            document.getElementById('annualGeneration').textContent = annualGeneration.toFixed(2);
+            document.getElementById('systemSize').textContent = systemSize + ' kW';
+            document.getElementById('monthlyUnits').textContent = totalMonthlyUnits.toFixed(2);
+            document.getElementById('yearlyUnits').textContent = totalYearlyUnits.toFixed(2);
+            document.getElementById('totalSavings').textContent = yearlySavings.toLocaleString('en-IN');
+            document.getElementById('roiYears').textContent = roiYears;
+
             document.getElementById('result').style.display = 'block';
 
             // Update environment contribution
             document.getElementById('treesAdded').textContent = treesAdded;
             document.getElementById('carsRemoved').textContent = carsRemoved;
             document.getElementById('environment').style.display = 'block';
+        });
+
+        document.getElementById('printReport').addEventListener('click', function() {
+            window.print();
         });
     </script>
 </body>
