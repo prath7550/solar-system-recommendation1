@@ -1,46 +1,158 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Solar Calculator</title>
-  <link rel="stylesheet" href="styles.css">
-  <script src="script.js" defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Solar Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input, select, button {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background: #e9ffe9;
+            border: 1px solid #c3e6cb;
+            border-radius: 4px;
+            display: none;
+        }
+
+        .result span {
+            font-weight: bold;
+        }
+
+        .environment {
+            margin-top: 20px;
+            padding: 15px;
+            background: #eaf7ff;
+            border: 1px solid #b3e5fc;
+            border-radius: 4px;
+            display: none;
+        }
+
+        .environment span {
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <h1>Solar System Calculator</h1>
-      <p>Calculate the best solar system size for your needs.</p>
-    </header>
+    <div class="container">
+        <h1>Solar Calculator</h1>
+        <form id="solarCalculatorForm">
+            <label for="address">City/Location:</label>
+            <input type="text" id="address" name="address" placeholder="Enter your city" required>
 
-    <form id="solar-form">
-      <div class="form-group">
-        <label for="location">Location:</label>
-        <input type="text" id="location" placeholder="Enter your city, e.g., Nashik, Maharashtra" required>
-      </div>
+            <label for="bill">Monthly Electricity Bill (₹):</label>
+            <input type="number" id="bill" name="bill" placeholder="Enter your electricity bill" required>
 
-      <div class="form-group">
-        <label for="monthly-bill">Monthly Electricity Bill (₹):</label>
-        <input type="number" id="monthly-bill" placeholder="e.g., 5000" required>
-      </div>
+            <label for="type">Type of Building:</label>
+            <select id="type" name="type" required>
+                <option value="residential">Residential</option>
+                <option value="commercial">Commercial</option>
+                <option value="industrial">Industrial</option>
+            </select>
 
-      <div class="form-group">
-        <label for="building-type">Building Type:</label>
-        <select id="building-type">
-          <option value="residential">Residential</option>
-          <option value="commercial">Commercial</option>
-          <option value="industrial">Industrial</option>
-        </select>
-      </div>
+            <button type="submit">Calculate</button>
+        </form>
 
-      <button type="button" id="calculate-btn">Calculate</button>
-    </form>
+        <div class="result" id="result">
+            <p>Based on your inputs, you need a solar system size of <span id="systemSize"></span> kW.</p>
+            <p>The estimated cost for this system is <span id="systemCost"></span> ₹.</p>
+            <p>Annual Generation: <span id="annualGeneration"></span> kWh.</p>
+        </div>
 
-    <div id="result" class="result">
-      <h2>Results</h2>
-      <div id="result-details"></div>
+        <div class="environment" id="environment">
+            <p>Your Contribution to the Environment:</p>
+            <p><span id="treesAdded"></span> trees added</p>
+            <p><span id="carsRemoved"></span> cars off the road</p>
+        </div>
     </div>
-  </div>
+
+    <script>
+        document.getElementById('solarCalculatorForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const address = document.getElementById('address').value;
+            const bill = parseFloat(document.getElementById('bill').value);
+            const type = document.getElementById('type').value;
+
+            if (isNaN(bill) || bill <= 0) {
+                alert('Please enter a valid electricity bill amount.');
+                return;
+            }
+
+            // Calculation logic
+            const avgSunHours = 5; // Average sun hours per day for India
+            const costPerKW = 50000; // Estimated cost per kW in ₹
+            const efficiencyFactor = type === 'residential' ? 0.75 : type === 'commercial' ? 0.85 : 0.95;
+
+            const annualConsumption = bill * 12; // Annual electricity consumption in ₹
+            const systemSize = (annualConsumption / 12 / avgSunHours / 5) * efficiencyFactor; // kW size calculation
+            const systemCost = systemSize * costPerKW; // Cost estimation
+            const annualGeneration = systemSize * avgSunHours * 365; // Annual solar generation in kWh
+
+            // Environmental contribution
+            const treesAdded = Math.round(systemSize * 44); // 44 trees per kW as an estimate
+            const carsRemoved = Math.round(systemSize * 0.7); // 0.7 cars per kW as an estimate
+
+            // Update results
+            document.getElementById('systemSize').textContent = systemSize.toFixed(2);
+            document.getElementById('systemCost').textContent = systemCost.toLocaleString('en-IN');
+            document.getElementById('annualGeneration').textContent = annualGeneration.toFixed(2);
+            document.getElementById('result').style.display = 'block';
+
+            // Update environment contribution
+            document.getElementById('treesAdded').textContent = treesAdded;
+            document.getElementById('carsRemoved').textContent = carsRemoved;
+            document.getElementById('environment').style.display = 'block';
+        });
+    </script>
 </body>
 </html>
