@@ -6,66 +6,70 @@
 
 body {
     font-family: 'Poppins', sans-serif;
-    background-color: #f8f8f8;
+    background-color: #f7f9fc;
+    color: #333;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
 }
 
-.container {
+.calculator-container {
     background-color: #fff;
-    padding: 30px;
     border-radius: 10px;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    padding: 40px;
     width: 450px;
     text-align: center;
 }
 
-header h1 {
+.calculator-header h1 {
+    font-size: 28px;
+    font-weight: 600;
+    color: #2a3d66;
     margin-bottom: 20px;
-    color: #333;
 }
 
-.form-group {
-    margin-bottom: 20px;
+.calculator-form .form-group {
+    margin-bottom: 15px;
 }
 
 input, select, button {
     padding: 12px;
-    border-radius: 5px;
     width: 100%;
     font-size: 16px;
+    border-radius: 6px;
     border: 1px solid #ccc;
 }
 
 button {
-    background-color: #28a745;
+    background-color: #4CAF50;
     color: white;
     border: none;
     cursor: pointer;
+    font-weight: bold;
 }
 
 button:hover {
-    background-color: #218838;
+    background-color: #45a049;
 }
 
-#result {
+.result-container {
     margin-top: 30px;
-    text-align: left;
 }
 
-#result p {
-    font-size: 18px;
-    margin-bottom: 10px;
+.result-details p {
+    font-size: 16px;
+    margin: 8px 0;
+    color: #333;
 }
 
-#chartContainer {
-    margin-top: 40px;
-    max-width: 90%;
+.chart-container {
+    margin-top: 20px;
+    height: 300px;
 }
 
 canvas {
     width: 100% !important;
-    height: 300px;
+    height: 100% !important;
 }
