@@ -3,53 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Professional Solar Calculator</title>
+    <title>Solar System Calculator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Solar System Size Calculator</h1>
-        </header>
+    <div class="calculator-container">
+        <div class="calculator-header">
+            <h1>Professional Solar Calculator</h1>
+        </div>
 
-        <form id="calculatorForm">
+        <div class="calculator-form">
             <div class="form-group">
-                <label for="billAmount">Monthly Bill (₹):</label>
+                <label for="billAmount">Monthly Bill (₹)</label>
                 <input type="number" id="billAmount" placeholder="Enter your monthly bill" required>
             </div>
             <div class="form-group">
-                <label for="type">Consumer Type:</label>
-                <select id="type" required>
+                <label for="type">Consumer Type</label>
+                <select id="type">
                     <option value="R">Residential</option>
                     <option value="C">Commercial</option>
                     <option value="I">Industrial</option>
                 </select>
             </div>
-
             <div class="form-group">
-                <label for="state">State:</label>
+                <label for="state">State</label>
                 <input type="text" id="state" value="Maharashtra" disabled>
             </div>
-
             <div class="form-group">
-                <button type="submit">Calculate</button>
+                <button id="calculateButton">Calculate</button>
             </div>
-        </form>
-
-        <div id="result">
-            <h2>Solar System Details</h2>
-            <p><strong>System Size:</strong> <span id="systemSize">N/A</span> kW</p>
-            <p><strong>Energy Generation (Monthly):</strong> <span id="monthlyGeneration">N/A</span> kWh</p>
-            <p><strong>Energy Generation (Yearly):</strong> <span id="yearlyGeneration">N/A</span> kWh</p>
-            <p><strong>Estimated Savings (Yearly):</strong> ₹<span id="yearlySavings">N/A</span></p>
-            <p><strong>ROI (Return on Investment):</strong> <span id="roi">N/A</span></p>
-            <p><strong>Payback Period:</strong> <span id="paybackPeriod">N/A</span> years</p>
         </div>
 
-        <div id="chartContainer">
-            <canvas id="roiChart"></canvas>
+        <div class="result-container" id="resultContainer">
+            <h2>System Details</h2>
+            <div class="result-details">
+                <p><strong>System Size:</strong> <span id="systemSize">N/A</span> kW</p>
+                <p><strong>Energy Generation (Monthly):</strong> <span id="monthlyGeneration">N/A</span> kWh</p>
+                <p><strong>Energy Generation (Yearly):</strong> <span id="yearlyGeneration">N/A</span> kWh</p>
+                <p><strong>Yearly Savings:</strong> ₹<span id="yearlySavings">N/A</span></p>
+                <p><strong>ROI:</strong> <span id="roi">N/A</span>%</p>
+                <p><strong>Payback Period:</strong> <span id="paybackPeriod">N/A</span> years</p>
+            </div>
+            <div class="chart-container">
+                <canvas id="roiChart"></canvas>
+            </div>
         </div>
     </div>
 
