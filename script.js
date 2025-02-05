@@ -1,38 +1,35 @@
-document.getElementById('calculatorForm').addEventListener('submit', function (event) {
-    event.preventDefault();
-
+document.getElementById('calculateButton').addEventListener('click', function() {
+    // Get user input values
     const billAmount = parseFloat(document.getElementById('billAmount').value);
     const type = document.getElementById('type').value;
 
-    // Tariff rates for Maharashtra (simulated data)
+    // Use real-time tariff data (assumed rates for Maharashtra)
     const tariffRates = {
-        'R': 7,   // Residential: ₹7 per kWh
-        'C': 9,   // Commercial: ₹9 per kWh
-        'I': 10   // Industrial: ₹10 per kWh
+        'R': 7,  // Residential: ₹7 per kWh
+        'C': 9,  // Commercial: ₹9 per kWh
+        'I': 10  // Industrial: ₹10 per kWh
     };
 
     const tariffRate = tariffRates[type];
 
-    // Calculate Solar System Size (simplified model)
-    const systemSize = (billAmount / 30) / tariffRate;  // Simplified formula for solar size calculation
+    // Calculate Solar System Size (simplified model based on bill amount and tariff rate)
+    const systemSize = (billAmount / 30) / tariffRate;  // Simplified solar size calculation
 
-    // Energy Generation (assuming 4.5 hours of full sunlight per day in Maharashtra)
-    const dailyGeneration = systemSize * 4.5; // kWh/day
+    // Estimate Energy Generation (assuming 4.5 hours of sunlight per day in Maharashtra)
+    const dailyGeneration = systemSize * 4.5;  // kWh/day
     const monthlyGeneration = dailyGeneration * 30;
     const yearlyGeneration = monthlyGeneration * 12;
 
-    // Estimated savings
+    // Estimate Yearly Savings
     const yearlySavings = yearlyGeneration * tariffRate;
 
-    // ROI Calculation (assuming a fixed installation cost for now)
-    const installationCost = 500000; // ₹500,000 per kW installed (simplified)
-    const totalInstallationCost = systemSize * installationCost;
+    // Calculate ROI and Payback Period
+    const installationCostPerKW = 500000; // ₹500,000 per kW installed (assumed)
+    const totalInstallationCost = systemSize * installationCostPerKW;
     const roi = ((yearlySavings / totalInstallationCost) * 100).toFixed(2);
-
-    // Payback Period Calculation
     const paybackPeriod = (totalInstallationCost / yearlySavings).toFixed(2);
 
-    // Display results
+    // Display results dynamically
     document.getElementById('systemSize').textContent = systemSize.toFixed(2);
     document.getElementById('monthlyGeneration').textContent = monthlyGeneration.toFixed(2);
     document.getElementById('yearlyGeneration').textContent = yearlyGeneration.toFixed(2);
@@ -40,27 +37,32 @@ document.getElementById('calculatorForm').addEventListener('submit', function (e
     document.getElementById('roi').textContent = roi + '%';
     document.getElementById('paybackPeriod').textContent = paybackPeriod;
 
-    // Display ROI Chart
+    // Show ROI Chart
     const ctx = document.getElementById('roiChart').getContext('2d');
-    const roiChart = new Chart(ctx, {
-        type: 'bar',
+    new Chart(ctx, {
+        type: 'line',
         data: {
             labels: ['Year 1', 'Year 2', 'Year 3', 'Year 4'],
             datasets: [{
                 label: 'ROI (%)',
-                data: [roi, roi, roi, roi], // Simulated constant ROI for simplicity
-                backgroundColor: '#28a745',
-                borderColor: '#218838',
-                borderWidth: 1
+                data: [roi, roi, roi, roi],  // Simulated constant ROI for simplicity
+                borderColor: '#4CAF50',
+                backgroundColor: 'rgba(76, 175, 80, 0.3)',
+                fill: true,
+                tension: 0.1
             }]
         },
         options: {
+            responsive: true,
             scales: {
                 y: {
                     beginAtZero: true,
-                    max: 20
+                    max: 25
                 }
             }
         }
     });
+
+    // Show the results section
+    document.getElementById('resultContainer').style.display = 'block';
 });
