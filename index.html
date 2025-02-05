@@ -9,46 +9,32 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    <div class="calculator-container">
-        <div class="calculator-header">
-            <h1>Professional Solar Calculator</h1>
+    <div class="container">
+        <h1>Solar System Calculator</h1>
+
+        <div class="form">
+            <label for="billAmount">Enter Monthly Electricity Bill (₹):</label>
+            <input type="number" id="billAmount" placeholder="e.g. 2000">
+
+            <label for="type">Select Consumer Type:</label>
+            <select id="type">
+                <option value="R">Residential</option>
+                <option value="C">Commercial</option>
+                <option value="I">Industrial</option>
+            </select>
+
+            <button id="calculateButton">Calculate</button>
         </div>
 
-        <div class="calculator-form">
-            <div class="form-group">
-                <label for="billAmount">Monthly Bill (₹)</label>
-                <input type="number" id="billAmount" placeholder="Enter your monthly bill" required>
-            </div>
-            <div class="form-group">
-                <label for="type">Consumer Type</label>
-                <select id="type">
-                    <option value="R">Residential</option>
-                    <option value="C">Commercial</option>
-                    <option value="I">Industrial</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="state">State</label>
-                <input type="text" id="state" value="Maharashtra" disabled>
-            </div>
-            <div class="form-group">
-                <button id="calculateButton">Calculate</button>
-            </div>
-        </div>
+        <div class="results" id="results">
+            <h2>Results</h2>
+            <p><strong>System Size:</strong> <span id="systemSize">N/A</span> kW</p>
+            <p><strong>Monthly Generation:</strong> <span id="monthlyGeneration">N/A</span> kWh</p>
+            <p><strong>Annual Savings:</strong> ₹<span id="annualSavings">N/A</span></p>
+            <p><strong>ROI:</strong> <span id="roi">N/A</span>%</p>
+            <p><strong>Payback Period:</strong> <span id="paybackPeriod">N/A</span> years</p>
 
-        <div class="result-container" id="resultContainer">
-            <h2>System Details</h2>
-            <div class="result-details">
-                <p><strong>System Size:</strong> <span id="systemSize">N/A</span> kW</p>
-                <p><strong>Energy Generation (Monthly):</strong> <span id="monthlyGeneration">N/A</span> kWh</p>
-                <p><strong>Energy Generation (Yearly):</strong> <span id="yearlyGeneration">N/A</span> kWh</p>
-                <p><strong>Yearly Savings:</strong> ₹<span id="yearlySavings">N/A</span></p>
-                <p><strong>ROI:</strong> <span id="roi">N/A</span>%</p>
-                <p><strong>Payback Period:</strong> <span id="paybackPeriod">N/A</span> years</p>
-            </div>
-            <div class="chart-container">
-                <canvas id="roiChart"></canvas>
-            </div>
+            <canvas id="roiChart"></canvas>
         </div>
     </div>
 
