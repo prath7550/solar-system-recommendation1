@@ -1,68 +1,57 @@
-document.getElementById('calculateButton').addEventListener('click', function() {
-    // Get user input values
-    const billAmount = parseFloat(document.getElementById('billAmount').value);
-    const type = document.getElementById('type').value;
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f4f7f9;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
 
-    // Use real-time tariff data (assumed rates for Maharashtra)
-    const tariffRates = {
-        'R': 7,  // Residential: ₹7 per kWh
-        'C': 9,  // Commercial: ₹9 per kWh
-        'I': 10  // Industrial: ₹10 per kWh
-    };
+.container {
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.1);
+    width: 400px;
+}
 
-    const tariffRate = tariffRates[type];
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #2a3d66;
+}
 
-    // Calculate Solar System Size (simplified model based on bill amount and tariff rate)
-    const systemSize = (billAmount / 30) / tariffRate;  // Simplified solar size calculation
+.form label {
+    font-size: 16px;
+    margin-bottom: 5px;
+}
 
-    // Estimate Energy Generation (assuming 4.5 hours of sunlight per day in Maharashtra)
-    const dailyGeneration = systemSize * 4.5;  // kWh/day
-    const monthlyGeneration = dailyGeneration * 30;
-    const yearlyGeneration = monthlyGeneration * 12;
+input, select, button {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
 
-    // Estimate Yearly Savings
-    const yearlySavings = yearlyGeneration * tariffRate;
+button {
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+}
 
-    // Calculate ROI and Payback Period
-    const installationCostPerKW = 500000; // ₹500,000 per kW installed (assumed)
-    const totalInstallationCost = systemSize * installationCostPerKW;
-    const roi = ((yearlySavings / totalInstallationCost) * 100).toFixed(2);
-    const paybackPeriod = (totalInstallationCost / yearlySavings).toFixed(2);
+button:hover {
+    background-color: #45a049;
+}
 
-    // Display results dynamically
-    document.getElementById('systemSize').textContent = systemSize.toFixed(2);
-    document.getElementById('monthlyGeneration').textContent = monthlyGeneration.toFixed(2);
-    document.getElementById('yearlyGeneration').textContent = yearlyGeneration.toFixed(2);
-    document.getElementById('yearlySavings').textContent = yearlySavings.toFixed(2);
-    document.getElementById('roi').textContent = roi + '%';
-    document.getElementById('paybackPeriod').textContent = paybackPeriod;
+.results {
+    margin-top: 30px;
+}
 
-    // Show ROI Chart
-    const ctx = document.getElementById('roiChart').getContext('2d');
-    new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: ['Year 1', 'Year 2', 'Year 3', 'Year 4'],
-            datasets: [{
-                label: 'ROI (%)',
-                data: [roi, roi, roi, roi],  // Simulated constant ROI for simplicity
-                borderColor: '#4CAF50',
-                backgroundColor: 'rgba(76, 175, 80, 0.3)',
-                fill: true,
-                tension: 0.1
-            }]
-        },
-        options: {
-            responsive: true,
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    max: 25
-                }
-            }
-        }
-    });
-
-    // Show the results section
-    document.getElementById('resultContainer').style.display = 'block';
-});
+canvas {
+    margin-top: 20px;
+}
